@@ -40,3 +40,29 @@ AMD MI210
 [hipblas_gemm_performance_float_MI100.csv](hipblas_gemm_performance_float_MI100.csv)是在AMD MI100架构（架构gfx908）下float的执行性能。实测float峰值性能为41.7TFlops，大约为理论Matrix峰值23.1 TFlops的???。  
 [hipblas_gemm_performance_half_MI210.csv](hipblas_gemm_performance_half_MI210.csv)是在AMD MI210架构（架构gfx90a）下half的执行性能。实测half峰值性能为133.3TFlops，大约为理论峰值181 TFlops的73.6%。  
 [hipblas_gemm_performance_float_MI210.csv](hipblas_gemm_performance_float_MI210.csv)是在AMD MI210架构（架构gfx90a）下float的执行性能。实测float峰值性能为41.3TFlops，大约为理论Matrix峰值45.3 TFlops的91.2%。  
+
+[rocblas_gemm_performance_half_Radeon (TM) Pro VII.csv](rocblas_gemm_performance_half_Radeon(TM)ProVII.csv)是在AMD Radeon (TM) Pro VII架构（架构gfx906，与MI50相同）下half的执行性能。实测half峰值性能为18.9 TFlops，大约为理论峰值26.5 TFlops的71.3%。  
+[rocblas_gemm_performance_float_Radeon (TM) Pro VII.csv](rocblas_gemm_performance_float_Radeon(TM)ProVII.csv)是在AMD Radeon (TM) Pro VII架构（架构gfx906，与MI50相同）下float的执行性能。实测float峰值性能为11.5TFlops，大约为理论峰值13.3 TFlops的86.5%。  
+[rocblas_gemm_performance_half_MI100.csv](rocblas_gemm_performance_half_MI100.csv)是在AMD MI100架构（架构gfx908）下half的执行性能。实测half峰值性能为132TFlops，大约为理论峰值184.6 TFlops的82.6%。  
+[rocblas_gemm_performance_float_MI100.csv](rocblas_gemm_performance_float_MI100.csv)是在AMD MI100架构（架构gfx908）下float的执行性能。实测float峰值性能为41.6TFlops，大约为理论Matrix峰值23.1 TFlops的???。  
+[rocblas_gemm_performance_half_MI210.csv](rocblas_gemm_performance_half_MI210.csv)是在AMD MI210架构（架构gfx90a）下half的执行性能。实测half峰值性能为144.8TFlops，大约为理论峰值181 TFlops的80%。  
+[rocblas_gemm_performance_float_MI210.csv](rocblas_gemm_performance_float_MI210.csv)是在AMD MI210架构（架构gfx90a）下float的执行性能。实测float峰值性能为41.9TFlops，大约为理论Matrix峰值45.3 TFlops的92.5%。  
+
+#### 下面是不同平台在不同测试规模下执行rocblas gemm的实际Performance
+AMD Radeon (TM) Pro VII Half Precision Gemm
+![AMD Radeon (TM) Pro VII Half Precesion Gemm](imgs/rocblas_gemm_fp16_performance_Radeon(TM)ProVII.png) 
+
+AMD Radeon (TM) Pro VII Float Precision Gemm
+![AMD Radeon (TM) Pro VII Float Precesion Gemm](imgs/rocblas_gemm_fp32_performance_Radeon(TM)ProVII.png) 
+
+AMD MI100 Half Precision Gemm
+![AMD MI100 Half Precesion Gemm](imgs/rocblas_gemm_fp16_performance_MI100.png)
+
+AMD MI100 Float Precision Gemm
+![AMD MI100 Float Precesion Gemm](imgs/rocblas_gemm_fp32_performance_MI100.png)
+
+AMD MI210 Half Precision Gemm
+![AMD MI210 Half Precesion Gemm](imgs/rocblas_gemm_fp16_performance_MI210.png)
+
+AMD MI210 Float Precision Gemm
+![AMD MI210 Float Precesion Gemm](imgs/rocblas_gemm_fp32_performance_MI210.png)
