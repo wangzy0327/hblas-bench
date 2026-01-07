@@ -1,4 +1,4 @@
-# hblas-bench
+# hblas-bench & rocBLAS-bench
 
 测试的AMD GPU型号如下：
 
@@ -34,19 +34,19 @@ AMD MI210
 
 测试half类型(半精度)和float类型(单精度)gemm结果说明如下：
 
-[hipblas_gemm_performance_half_Radeon (TM) Pro VII.csv](hipblas_gemm_performance_half_Radeon(TM)ProVII.csv)是在AMD Radeon (TM) Pro VII架构（架构gfx906，与MI50相同）下half的执行性能。实测half峰值性能为12.2 TFlops，大约为理论峰值26.5 TFlops的46%。  
-[hipblas_gemm_performance_float_Radeon (TM) Pro VII.csv](hipblas_gemm_performance_float_Radeon(TM)ProVII.csv)是在AMD Radeon (TM) Pro VII架构（架构gfx906，与MI50相同）下float的执行性能。实测float峰值性能为11.5TFlops，大约为理论峰值13.3 TFlops的86.5%。  
-[hipblas_gemm_performance_half_MI100.csv](hipblas_gemm_performance_half_MI100.csv)是在AMD MI100架构（架构gfx908）下half的执行性能。实测half峰值性能为132TFlops，大约为理论峰值184.6 TFlops的71.5%。  
-[hipblas_gemm_performance_float_MI100.csv](hipblas_gemm_performance_float_MI100.csv)是在AMD MI100架构（架构gfx908）下float的执行性能。实测float峰值性能为41.7TFlops，大约为理论Matrix峰值23.1 TFlops的???。  
-[hipblas_gemm_performance_half_MI210.csv](hipblas_gemm_performance_half_MI210.csv)是在AMD MI210架构（架构gfx90a）下half的执行性能。实测half峰值性能为133.3TFlops，大约为理论峰值181 TFlops的73.6%。  
-[hipblas_gemm_performance_float_MI210.csv](hipblas_gemm_performance_float_MI210.csv)是在AMD MI210架构（架构gfx90a）下float的执行性能。实测float峰值性能为41.3TFlops，大约为理论Matrix峰值45.3 TFlops的91.2%。  
+[hipblas_gemm_performance_half_Radeon (TM) Pro VII.csv](csv/hipblas_gemm_performance_half_Radeon(TM)ProVII.csv)是在AMD Radeon (TM) Pro VII架构（架构gfx906，与MI50相同）下half的执行性能。实测half峰值性能为12.2 TFlops，大约为理论峰值26.5 TFlops的46%。  
+[hipblas_gemm_performance_float_Radeon (TM) Pro VII.csv](csv/hipblas_gemm_performance_float_Radeon(TM)ProVII.csv)是在AMD Radeon (TM) Pro VII架构（架构gfx906，与MI50相同）下float的执行性能。实测float峰值性能为11.5TFlops，大约为理论峰值13.3 TFlops的86.5%。  
+[hipblas_gemm_performance_half_MI100.csv](csv/hipblas_gemm_performance_half_MI100.csv)是在AMD MI100架构（架构gfx908）下half的执行性能。实测half峰值性能为132TFlops，大约为理论峰值184.6 TFlops的71.5%。  
+[hipblas_gemm_performance_float_MI100.csv](csv/hipblas_gemm_performance_float_MI100.csv)是在AMD MI100架构（架构gfx908）下float的执行性能。实测float峰值性能为41.7TFlops，大约为理论Matrix峰值23.1 TFlops的???。  
+[hipblas_gemm_performance_half_MI210.csv](csv/hipblas_gemm_performance_half_MI210.csv)是在AMD MI210架构（架构gfx90a）下half的执行性能。实测half峰值性能为133.3TFlops，大约为理论峰值181 TFlops的73.6%。  
+[hipblas_gemm_performance_float_MI210.csv](csv/hipblas_gemm_performance_float_MI210.csv)是在AMD MI210架构（架构gfx90a）下float的执行性能。实测float峰值性能为41.3TFlops，大约为理论Matrix峰值45.3 TFlops的91.2%。  
 
-[rocblas_gemm_performance_half_Radeon (TM) Pro VII.csv](rocblas_gemm_performance_half_Radeon(TM)ProVII.csv)是在AMD Radeon (TM) Pro VII架构（架构gfx906，与MI50相同）下half的执行性能。实测half峰值性能为18.9 TFlops，大约为理论峰值26.5 TFlops的71.3%。  
-[rocblas_gemm_performance_float_Radeon (TM) Pro VII.csv](rocblas_gemm_performance_float_Radeon(TM)ProVII.csv)是在AMD Radeon (TM) Pro VII架构（架构gfx906，与MI50相同）下float的执行性能。实测float峰值性能为11.5TFlops，大约为理论峰值13.3 TFlops的86.5%。  
-[rocblas_gemm_performance_half_MI100.csv](rocblas_gemm_performance_half_MI100.csv)是在AMD MI100架构（架构gfx908）下half的执行性能。实测half峰值性能为132TFlops，大约为理论峰值184.6 TFlops的82.6%。  
-[rocblas_gemm_performance_float_MI100.csv](rocblas_gemm_performance_float_MI100.csv)是在AMD MI100架构（架构gfx908）下float的执行性能。实测float峰值性能为41.6TFlops，大约为理论Matrix峰值23.1 TFlops的???。  
-[rocblas_gemm_performance_half_MI210.csv](rocblas_gemm_performance_half_MI210.csv)是在AMD MI210架构（架构gfx90a）下half的执行性能。实测half峰值性能为144.8TFlops，大约为理论峰值181 TFlops的80%。  
-[rocblas_gemm_performance_float_MI210.csv](rocblas_gemm_performance_float_MI210.csv)是在AMD MI210架构（架构gfx90a）下float的执行性能。实测float峰值性能为41.9TFlops，大约为理论Matrix峰值45.3 TFlops的92.5%。  
+[rocblas_gemm_performance_half_Radeon (TM) Pro VII.csv](csv/rocblas_gemm_performance_half_Radeon(TM)ProVII.csv)是在AMD Radeon (TM) Pro VII架构（架构gfx906，与MI50相同）下half的执行性能。实测half峰值性能为18.9 TFlops，大约为理论峰值26.5 TFlops的71.3%。  
+[rocblas_gemm_performance_float_Radeon (TM) Pro VII.csv](csv/rocblas_gemm_performance_float_Radeon(TM)ProVII.csv)是在AMD Radeon (TM) Pro VII架构（架构gfx906，与MI50相同）下float的执行性能。实测float峰值性能为11.5TFlops，大约为理论峰值13.3 TFlops的86.5%。  
+[rocblas_gemm_performance_half_MI100.csv](csv/rocblas_gemm_performance_half_MI100.csv)是在AMD MI100架构（架构gfx908）下half的执行性能。实测half峰值性能为132TFlops，大约为理论峰值184.6 TFlops的82.6%。  
+[rocblas_gemm_performance_float_MI100.csv](csv/rocblas_gemm_performance_float_MI100.csv)是在AMD MI100架构（架构gfx908）下float的执行性能。实测float峰值性能为41.6TFlops，大约为理论Matrix峰值23.1 TFlops的???。  
+[rocblas_gemm_performance_half_MI210.csv](csv/rocblas_gemm_performance_half_MI210.csv)是在AMD MI210架构（架构gfx90a）下half的执行性能。实测half峰值性能为144.8TFlops，大约为理论峰值181 TFlops的80%。  
+[rocblas_gemm_performance_float_MI210.csv](csv/rocblas_gemm_performance_float_MI210.csv)是在AMD MI210架构（架构gfx90a）下float的执行性能。实测float峰值性能为41.9TFlops，大约为理论Matrix峰值45.3 TFlops的92.5%。  
 
 #### 下面是不同平台在不同测试规模下执行rocblas gemm的实际Performance
 AMD Radeon (TM) Pro VII Half Precision Gemm
@@ -66,3 +66,6 @@ AMD MI210 Half Precision Gemm
 
 AMD MI210 Float Precision Gemm
 ![AMD MI210 Float Precesion Gemm](imgs/rocblas_gemm_fp32_performance_MI210.png)
+
+补充支持rocm平台国产硬件的bench：[国产rocm平台bench](DCU-bench.md)
+
