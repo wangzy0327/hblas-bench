@@ -11,10 +11,10 @@ alpha=1.0
 beta=0.0
 
 # 测试程序路径（请根据实际路径修改）
-EXECUTABLE="./test/gemm_rocblas_float"  # ← 请确保这是你编译出的可执行文件路径
+EXECUTABLE="./test/gemm_rocblas_int8"  # ← 请确保这是你编译出的可执行文件路径
 
 # 输出结果文件
-result_file="rocblas_gemm_performance_float.csv"
+result_file="rocblas_gemm_performance_int8.csv"
 
 # 检查可执行文件是否存在
 if [ ! -f "$EXECUTABLE" ]; then
@@ -24,7 +24,7 @@ if [ ! -f "$EXECUTABLE" ]; then
 fi
 
 # 写入CSV表头
-echo "m,n,k,rocblas_time_ms,rocblas_gflops" > "$result_file"
+echo "m,n,k,rocblas_time_ms,rocblas_gops" > "$result_file"
 
 # 遍历 m = n = k 的方阵情况
 for size in $(seq $start $step $end); do
@@ -48,16 +48,16 @@ for size in $(seq $start $step $end); do
         continue
     fi
 
-    # 提取 rocBLAS 时间和 GFLOPS
+    # 提取 rocBLAS 时间和 gtops
     rocblas_time=$(echo "$output" | grep "Rocblas GEMM time:" | awk '{print $4}')
-    rocblas_gflops=$(echo "$output" | grep "Rocblas GEMM Performance:" | awk '{print $4}')
+    rocblas_gtops=$(echo "$output" | grep "Rocblas GEMM Performance:" | awk '{print $4}')
 
     # 输出当前结果
-    echo "rocBLAS: ${rocblas_time} ms | ${rocblas_gflops} GFLOPS"
+    echo "rocBLAS: ${rocblas_time} ms | ${rocblas_gtops} gtops"
     echo ""
 
     # 写入CSV（若提取失败则留空）
-    echo "$m,$n,$k,$rocblas_time,$rocblas_gflops" >> "$result_file"
+    echo "$m,$n,$k,$rocblas_time,$rocblas_gtops" >> "$result_file"
 done
 
 echo "========================================"
