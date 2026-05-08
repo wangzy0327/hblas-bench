@@ -1,5 +1,9 @@
 # hblas-bench & rocBLAS-bench
 
+测试的Nvidia GPU型号如下：
+
+NVIDIA A100-PCIE-40GB
+
 测试的AMD GPU型号如下：
 
 AMD Radeon (TM) Pro VII  
@@ -10,6 +14,45 @@ AMD MI210
 ![AMD_MI210](imgs/MI210.png)  
 
 #### metrics analysis
+
+下面列出具体的V100和A100官方的GPUs硬件规格比较。  
+
+| GPU Features                                  | Nvidia Tesla V100        | Nvidia Tesla A100         |
+| --------------------------------------------- | ------------------------ | ------------------------- |
+| GPU Artchitecture                             | Nvidia Volta             | Nvidia Ampere             |
+| SMs                                           | 80                       | 108                       |
+| FP32 Cores / SM                               | 64                       | 64                        |
+| FP32 Cores / GPU                              | 5120                     | 6912                      |
+| FP64 Cores / SM (excl. Tensor)                | 32                       | 32                        |
+| FP64 Cores / GPU (excl. Tensor)               | 2560                     | 3456                      |
+| INT32 Cores / SM                              | 64                       | 64                        |
+| INT32 Cores / GPU                             | 5120                     | 6912                      |
+| Tensor Cores / SM                             | 8                        | 4                         |
+| Tensor Cores / GPU                            | 640                      | 432                       |
+| Peak FP16 Tensor TFLOPS with FP16 Accumulate  | 125                      | 312/624³                  |
+| Peak FP16 Tensor TFLOPS with FP32 Accumulate¹ | 125                      | 312/624³                  |
+| Peak BF16 Tensor TFLOPS with FP32 Accumulate¹ | NA                       | 312/624³                  |
+| Peak TF32 Tensor TFLOPS                       | NA                       | 156/312³                  |
+| Peak FP64 Tensor TFLOPS                       | NA                       | 19.5                      |
+| Peak INT8 Tensor TOPS¹                        | NA                       | 624/1248³                 |
+| Peak INT4 Tensor TOPS¹                        | NA                       | 1248/2496³                |
+| Peak FP16 TFLOPS¹(non-Tensor)                 | 31.4                     | 78                        |
+| Peak BF16 TFLOPS¹(non-Tensor)                 | NA                       | 39                        |
+| Peak FP32 TFLOPS¹(non-Tensor)                 | 15.7                     | 19.5                      |
+| Peak FP64 TFLOPS¹ (non-Tensor)                | 7.8                      | 9.7                       |
+| Peak INT32 TOPS¹,⁴                            | 15.7                     | 19.5                      |
+| Memory Size                                   | 32 GB/16 GB              | 40 GB                     |
+| Memory  Bandwidth                             | 900 GB/sec               | 1555 GB/sec               |
+| L2 Cache Size                                 | 6144 KB                  | 40960 KB                  |
+| Shared Memory Size / SM                       | Configurable up to 96 KB | Configurable up to 164 KB |
+
+1. *Peak rates are based on GPU Boost Clock.*
+2. *Four Tensor Cores in an A100 SM have 2x the raw FMA computational*
+*power of eight Tensor Cores in a GV100 SM.*
+3. *Effective TOPS / TFLOPS using the new Sparsity Feature*
+4. *TOPS = IMAD-based integer math*
+
+
 
 下面列出具体的AMD Radeon ProVII、AMD MI100、AMD MI210官方的GPUs规格比较。
 
@@ -43,6 +86,10 @@ AMD MI210
 
 
 
+#### Cublas测试
+
+[cublas_gemm_performance_half_A100.csv](csv/cublas_gemm_performance_half_A100.csv)是在Nvidia A100架构（架构sm80）下half的执行性能。实测half峰值性能为296.5 TFlops，大约为理论峰值312 TFlops的95.03%
+
 #### rocblas测试
 
 [rocblas_gemm_performance_half_Radeon (TM) Pro_VII.csv](csv/rocblas_gemm_performance_half_Radeon(TM)ProVII.csv)是在AMD Radeon (TM) Pro VII架构（架构gfx906，与MI50相同）下half的执行性能。实测half峰值性能为18.9 TFlops，大约为理论峰值26.5 TFlops的71.3%。  
@@ -60,7 +107,16 @@ AMD MI210
 [rocblas_gemm_performance_fp64_MI210.csv](csv/rocblas_gemm_performance_fp64_MI210.csv)是在AMD MI210架构（架构gfx90a）下float的执行性能。实测double峰值性能为39.9TFlops，大约为理论Matrix峰值45.3 TFlops的88.1%。  
 [rocblas_gemm_performance_int8_MI210.csv](csv/rocblas_gemm_performance_int8_MI210.csv)是在AMD MI210架构（架构gfx90a）下int8的执行性能。实测int8峰值性能为145.8TOps，大约为理论Matrix峰值181 TOps的80.6%。  
 
+#### 下面是Nvidia A100平台在不同测试规模下执行cublas gemm的实际Performance
+
+Nvidia A100 Half Precision Gemm
+
+![Nvidia_A100 Half Precesion Gemm](imgs/cublas_gemm_performance_half_A100.png)
+
+
+
 #### 下面是不同平台在不同测试规模下执行rocblas gemm的实际Performance
+
 AMD Radeon (TM) Pro VII Half Precision Gemm
 ![AMD Radeon (TM) Pro VII Half Precesion Gemm](imgs/rocblas_gemm_fp16_performance_Radeon(TM)ProVII.png) 
 

@@ -1,4 +1,5 @@
 #hipcc --offload-arch=gfx908  -o ./test/gemm_blas ./src/gemm_blas.cpp -lhipblas
+nvcc -std=c++17 -O3 -gencode arch=compute_80,code=sm_80 src/gemm_blas_adv.cu -o ./test/gemm_blas_adv -lcublas -lcudart
 hipcc -O3 -ffast-math --offload-arch=gfx908  -o ./test/gemm_blas2 ./src/gemm_blas2.cpp -lhipblas
 hipcc -std=c++17 -O3 -ffast-math --offload-arch=gfx908 -Wno-return-type src/gemm_blas3.cpp -o ./test/gemm_blas_new -lhipblas
 hipcc -std=c++17  --offload-arch=gfx906 -Wno-return-type src/gemm_blas3.cpp -o ./test/gemm_blas_new_float -lhipblas
