@@ -190,6 +190,9 @@ void TestCublasGemm(int M, int N, int K, float alpha_float, float beta_float) {
   if (std::is_same<InputType, half>::value) {
       CUBLAS_CALL(cublasSetMathMode(handle, CUBLAS_TENSOR_OP_MATH));
   }
+  else if (std::is_same<InputType, float>::value) {
+    CUBLAS_CALL(cublasSetMathMode(handle, CUBLAS_TF32_TENSOR_OP_MATH));
+  }
   // ---------------------------------
 
   // Convert scalars to correct type
@@ -212,32 +215,39 @@ void TestCublasGemm(int M, int N, int K, float alpha_float, float beta_float) {
         CUBLAS_GEMM_DEFAULT_TENSOR_OP)); // Use Tensor Core heuristic
   }
   CUDA_CALL(cudaDeviceSynchronize());
+  // 定义测试迭代次数
+  constexpr int test_iter = 50;
+  std::cout << "Running performance test (" << test_iter << " iterations)..." << std::endl;
 
   cudaEvent_t start_blas, stop_blas;
   CUDA_CALL(cudaEventCreate(&start_blas));
   CUDA_CALL(cudaEventCreate(&stop_blas));
   CUDA_CALL(cudaEventRecord(start_blas));
 
-  CUBLAS_CALL(cublasGemmEx(handle,
-      CUBLAS_OP_N, CUBLAS_OP_N,
-      M, N, K,
-      &alpha_float,
-      A, GemmTraits<InputType>::a_type, lda,
-      B, GemmTraits<InputType>::b_type, ldb,
-      &beta_float,
-      C, GemmTraits<InputType>::c_type, ldc,
-      GemmTraits<InputType>::compute_type,
-      CUBLAS_GEMM_DEFAULT_TENSOR_OP));
+  // 执行50次 GEMM 操作
+  for (int i = 0; i < test_iter; ++i) {
+    CUBLAS_CALL(cublasGemmEx(handle,
+        CUBLAS_OP_N, CUBLAS_OP_N,
+        M, N, K,
+        &alpha_float,
+        A, GemmTraits<InputType>::a_type, lda,
+        B, GemmTraits<InputType>::b_type, ldb,
+        &beta_float,
+        C, GemmTraits<InputType>::c_type, ldc,
+        GemmTraits<InputType>::compute_type,
+        CUBLAS_GEMM_DEFAULT_TENSOR_OP)); // Use Tensor Core heuristic
+  }
 
   CUDA_CALL(cudaEventRecord(stop_blas));
   CUDA_CALL(cudaEventSynchronize(stop_blas));
-  float elapsed_ms_blas;
-  CUDA_CALL(cudaEventElapsedTime(&elapsed_ms_blas, start_blas, stop_blas));
-  std::cout << "Cublas GEMM time: " << elapsed_ms_blas << " ms" << std::endl;
+  float total_elapsed_ms_blas;
+  CUDA_CALL(cudaEventElapsedTime(&total_elapsed_ms_blas, start_blas, stop_blas));
+  float avg_elapsed_ms_blas = total_elapsed_ms_blas / test_iter;
+  std::cout << "Cublas Avg GEMM time: " << avg_elapsed_ms_blas << " ms" << std::endl;
 
   double flops_blas = 2.0 * M * N * K;
-  double gflops_blas = flops_blas / (elapsed_ms_blas * 1e6);
-  std::cout << "Cublas GEMM Performance: " << gflops_blas << " GFLOPS" << std::endl;
+  double gflops_blas = flops_blas / (avg_elapsed_ms_blas * 1e6);
+  std::cout << "Cublas Avg GEMM Performance: " << gflops_blas << " GFLOPS" << std::endl;
 
   CUBLAS_CALL(cublasDestroy(handle));
 
@@ -274,7 +284,10 @@ int main(int argc, char** argv) {
               << " (Compute Capability: " << deviceProp.major << "." << deviceProp.minor << ")" << std::endl;
 
     // Run test with Half precision (FP16) to utilize Tensor Cores
-    TestCublasGemm<half>(
+    // TestCublasGemm<half>(
+    TestCublasGemm<float>(
+    // TestCublasGemm<double>(
+    // TestCublasGemm<int8_t>(
         problem[0], problem[1], problem[2],
         scalars[0], scalars[1]
     );

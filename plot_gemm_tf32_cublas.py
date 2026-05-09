@@ -5,16 +5,9 @@ import numpy as np
 # ----------------------------
 # 配置参数
 # ----------------------------
-#CSV_FILE = "csv/rocblas_gemm_performance_half_Radeon(TM)ProVII.csv"
-CSV_FILE = "csv/cublas_gemm_performance_half_A100_avg.csv"
-# CSV_FILE = "rocblas_gemm_performance_half.csv"
-#OUTPUT_PNG = "imgs/rocblas_gemm_fp16_performance_Radeon(TM)ProVII.png"
-OUTPUT_PNG = "imgs/cublas_gemm_performance_half_A100_avg.png"
-# GPU_THEORETICAL_TFLOPS = 184.6  # 示例：MI100 FP16 峰值
-#GPU_THEORETICAL_TFLOPS = 26.5  # 示例：MI50 FP16 峰值
-GPU_THEORETICAL_TFLOPS = 312  # 示例：A100 FP16 峰值
-# GPU_NAME = "AMD Instinct MI100"
-#GPU_NAME = "AMD Instinct MI50"
+CSV_FILE = "csv/cublas_gemm_performance_tf32_A100_avg.csv"
+OUTPUT_PNG = "imgs/cublas_gemm_performance_tf32_A100_avg.png"
+GPU_THEORETICAL_TFLOPS = 156  # 示例：A100 FP32 峰值
 GPU_NAME = "Nvidia A100"
 
 # 横轴范围
@@ -50,7 +43,7 @@ tflops = df['cublas_gflops'].values / 1000.0  # 转为 TFLOPS
 # 绘图
 # ----------------------------
 plt.figure(figsize=(14, 7))
-plt.plot(sizes, tflops, 'bo-', markersize=5, linewidth=1.5, label='Measured FP16 GEMM Performance')
+plt.plot(sizes, tflops, 'bo-', markersize=5, linewidth=1.5, label='Measured FP32 GEMM Performance')
 
 # 标注峰值点
 peak_idx = np.argmax(tflops)
@@ -83,7 +76,7 @@ for size in key_sizes:
                  fontsize=9, color='gray')
 
 # 图表美化
-plt.title('CUDA Cublas FP16 GEMM Performance (M = N = K)', fontsize=16, pad=20)
+plt.title('CUDA Cublas TF32 GEMM Performance  (M = N = K)', fontsize=16, pad=20)
 plt.xlabel('Matrix Dimension (M = N = K)', fontsize=14)
 plt.ylabel('Performance (TFLOPS)', fontsize=14)
 plt.grid(True, linestyle='--', alpha=0.6)

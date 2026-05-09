@@ -12,10 +12,10 @@ alpha=1.0
 beta=0.0
 
 # 测试程序路径（请根据实际路径修改）
-EXECUTABLE="./test/gemm_blas_adv_avg"  # ← 请确保这是你编译出的可执行文件路径
+EXECUTABLE="./test/gemm_blas_adv_tf32_avg"  # ← 请确保这是你编译出的可执行文件路径
 
 # 输出结果文件
-result_file="csv/cublas_gemm_performance_half_A100_avg.csv"
+result_file="csv/cublas_gemm_performance_tf32_A100_avg.csv"
 
 # 检查可执行文件是否存在
 if [ ! -f "$EXECUTABLE" ]; then

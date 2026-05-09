@@ -88,7 +88,9 @@ AMD MI210
 
 #### Cublas测试
 
-[cublas_gemm_performance_half_A100.csv](csv/cublas_gemm_performance_half_A100.csv)是在Nvidia A100架构（架构sm80）下half的执行性能。实测half峰值性能为296.5 TFlops，大约为理论峰值312 TFlops的95.03%
+[cublas_gemm_performance_half_A100_avg.csv](csv/cublas_gemm_performance_half_A100_avg.csv)是在Nvidia A100架构（架构sm80）下half的执行性能。实测half峰值性能为279.3 TFlops，大约为理论峰值312 TFlops的89.5%
+
+[cublas_gemm_performance_tf32_A100_avg.csv](csv/cublas_gemm_performance_tf32_A100_avg.csv)是在Nvidia A100架构（架构sm80）下tf32的执行性能。实测tf32峰值性能为128.2 TFlops，大约为理论峰值156TFlops的82.2%
 
 #### rocblas测试
 
@@ -111,9 +113,11 @@ AMD MI210
 
 Nvidia A100 Half Precision Gemm
 
-![Nvidia_A100 Half Precesion Gemm](imgs/cublas_gemm_performance_half_A100.png)
+![Nvidia_A100 Half Precesion Gemm](imgs/cublas_gemm_performance_half_A100_avg.png)
 
+Nvidia A100 TF32 Precision Gemm
 
+![Nvidia_A100 TF32 Precesion Gemm](imgs/cublas_gemm_performance_tf32_A100_avg.png)
 
 #### 下面是不同平台在不同测试规模下执行rocblas gemm的实际Performance
 
