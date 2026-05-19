@@ -161,3 +161,5 @@ AMD MI210 Int8 Precision Gemm
 
 补充支持rocm平台国产硬件的bench：[国产rocm平台bench](DCU-bench.md)
 
+[rocblas_gemm_ex调用测试样例](src/verify_rocblas_gemm.cpp)
+
