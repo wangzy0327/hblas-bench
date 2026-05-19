@@ -144,6 +144,19 @@ int main(int argc,char **argv)
 	HIP_CALL(hipMemcpy(MatD,devD,m*n*sizeof(float),hipMemcpyDeviceToHost));
 
 	
+	/**
+		=== GPU None GEMM 结果 : ===
+		38.000000 44.000000 50.000000 56.000000 
+		83.000000 98.000000 113.000000 128.000000 
+
+		=== GPU Transpose GEMM 结果 : ===
+		38.000000 44.000000 50.000000 56.000000 
+		83.000000 98.000000 113.000000 128.000000 
+
+		=== CPU GEMM 结果 : ===
+		38.000000 44.000000 50.000000 56.000000 
+		83.000000 98.000000 113.000000 128.000000
+	*/
 	// === 正确性验证===
 	printf("\n=== GPU None GEMM 结果 : ===\n");
 	float max_error = 0.0f;
