@@ -163,3 +163,4 @@ AMD MI210 Int8 Precision Gemm
 
 [rocblas_gemm_ex调用测试样例](src/verify_rocblas_gemm.cpp)
 
+[gemm调库参数设置详解](rocblasGemmEx.md)
