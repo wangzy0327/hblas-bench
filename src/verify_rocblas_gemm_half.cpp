@@ -84,32 +84,42 @@ __global__ void self_gemm(const half* MatA, const half* MatB, half* MatC, int m,
 	// int lda = m, ldb = k, ldc = m;
 	__v4hf A_local;
 	__v4hf B_local;
-	__v4sf C_local = {0.0f, 0.0f, 0.0f, 0.0f};
-	const half* A_Block = MatA + blockIdx.y * BM * k;
-	const half* B_Block = MatB + BN * blockIdx.x;
-	int A_col = (threadIdx.x / 16) * 4;
-	int A_row = threadIdx.x & 15;
-	A_local = *reinterpret_cast<const __v4hf*>(&A_Block[A_col + A_row * k]);
-	// printf("threadIdx : %d, A0: %f\n",threadIdx.x, __half2float(A_local[0]));
-	// A_local[0] = A_Block[A_col + A_row * k];
-	// A_local[1] = A_Block[A_col + A_row * k + 1];
-	// A_local[2] = A_Block[A_col + A_row * k + 2];
-	// A_local[3] = A_Block[A_col + A_row * k + 3];
-	int B_col = threadIdx.x & 15;
-	int B_row = (threadIdx.x / 16) * 4;
-	B_local[0] = B_Block[B_col + (B_row + 0) * n];
-	B_local[1] = B_Block[B_col + (B_row + 1) * n];
-	B_local[2] = B_Block[B_col + (B_row + 2) * n];
-	B_local[3] = B_Block[B_col + (B_row + 3) * n];
-	C_local = __builtin_amdgcn_mmac_f32_16x16x16f16(A_local,B_local,C_local);
-	// C_local = __builtin_amdgcn_mmac_f32_16x16x16f16(B_local,A_local,C_local);
+	__v4sf C_local_accum = {0.0f, 0.0f, 0.0f, 0.0f};
+    for(int ki = 0; ki < k;ki += BK){
+        __v4sf C_local = {0.0f, 0.0f, 0.0f, 0.0f};
+        const half* A_Block = MatA + blockIdx.y * BM * k + ki;
+	    const half* B_Block = MatB + BN * blockIdx.x + ki * n;
+        int A_col = (threadIdx.x / 16) * 4;
+        int A_row = threadIdx.x & 15;
+        A_local = *reinterpret_cast<const __v4hf*>(&A_Block[A_col + A_row * k]);
+        // printf("threadIdx : %d, A0: %f\n",threadIdx.x, __half2float(A_local[0]));
+        // A_local[0] = A_Block[A_col + A_row * k];
+        // A_local[1] = A_Block[A_col + A_row * k + 1];
+        // A_local[2] = A_Block[A_col + A_row * k + 2];
+        // A_local[3] = A_Block[A_col + A_row * k + 3];
+        int B_col = threadIdx.x & 15;
+        int B_row = (threadIdx.x / 16) * 4;
+        B_local[0] = B_Block[B_col + (B_row + 0) * n];
+        B_local[1] = B_Block[B_col + (B_row + 1) * n];
+        B_local[2] = B_Block[B_col + (B_row + 2) * n];
+        B_local[3] = B_Block[B_col + (B_row + 3) * n];
+        C_local = __builtin_amdgcn_mmac_f32_16x16x16f16(A_local,B_local,C_local);
+        C_local_accum[0] += C_local[0];
+        C_local_accum[1] += C_local[1];
+        C_local_accum[2] += C_local[2];
+        C_local_accum[3] += C_local[3];
+    }
 	half* C_Block = MatC + blockIdx.y * BM * n + blockIdx.x * BN;
 	int C_col = threadIdx.x / 16;
 	int C_row = threadIdx.x & 15;
-	C_Block[C_col + C_row * n] = __float2half(C_local[0]);
-	C_Block[C_col + C_row * n + 1 * 4] = __float2half(C_local[1]);
-	C_Block[C_col + C_row * n + 2 * 4] = __float2half(C_local[2]);
-	C_Block[C_col + C_row * n + 3 * 4] = __float2half(C_local[3]);
+	C_Block[C_col + C_row * n] = __float2half(C_local_accum[0]);
+	C_Block[C_col + C_row * n + 1 * 4] = __float2half(C_local_accum[1]);
+	C_Block[C_col + C_row * n + 2 * 4] = __float2half(C_local_accum[2]);
+	C_Block[C_col + C_row * n + 3 * 4] = __float2half(C_local_accum[3]);
+
+	
+	// C_local = __builtin_amdgcn_mmac_f32_16x16x16f16(B_local,A_local,C_local);
+
 	// __builtin_amdgcn_mmac_f32_16x16x16f16();
 }
 
@@ -118,7 +128,7 @@ int main(int argc,char **argv)
 {
 	int m, n, k;
 	// m = 2, n = 4, k = 3;
-	m = 16, n = 16, k = 16;
+	m = 16, n = 16, k = 64;
 	if (argc == 4) {
 		m = std::atoi(argv[1]);
 		n = std::atoi(argv[2]);
@@ -135,14 +145,14 @@ int main(int argc,char **argv)
 	// half hB[] = {1,2,3,4,
 	// 				5,6,7,8,
 	// 				9,10,11,12};
-	float* MatA = new float[m*n];
+	float* MatA = new float[m*k];
 	// for(int i = 0;i < m;i++){
 	// 	for(int j = 0;j < k;j++){
 	// 		int idx = k*i+j;
 	// 		MatA[idx] = i+1;
 	// 	}
 	// }
-	float* MatB = new float[n*k];
+	float* MatB = new float[k*n];
 	// for(int i = 0;i < k;i++){
 	// 	for(int j = 0;j < n;j++){
 	// 		int idx = n*i+j;
@@ -150,7 +160,7 @@ int main(int argc,char **argv)
 	// 	}
 	// }
 
-	half* hA = new half[m*n];
+	half* hA = new half[m*k];
 	// for(int i = 0;i < m;i++){
 	// 	for(int j = 0;j < k;j++){
 	// 		int idx = k*i+j;
