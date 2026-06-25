@@ -18,3 +18,5 @@ hipcc -o ./test/gemv ./src/gemv.cpp
 echo "finish build, all execution file in test"
 
 hipcc -std=c++11  --offload-arch=gfx936 -Wno-return-type -I/opt/rocm/include/rocblas verify_rocblas_gemm.cpp -o verify_rocblas_gemm_N_T -lrocblas
+
+hipcc -std=c++11  --offload-arch=gfx936 -Wno-return-type -I/opt/rocm/include/rocblas verify_rocblas_gemm_half.cpp -o verify_rocblas_gemm_half -lrocblas
